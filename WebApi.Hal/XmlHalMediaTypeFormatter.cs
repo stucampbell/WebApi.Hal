@@ -195,6 +195,12 @@ namespace WebApi.Hal
             var propertyValue = property.GetValue(instance, null);
             if (propertyValue != null)
             {
+                if (property.PropertyType.IsAssignableFrom(typeof(DateTime)))
+                {
+                    // Always use universal sortable date/time pattern regardless of current culture.
+                    // Makes more sense in an API
+                    return ((DateTime)propertyValue).ToString("u");
+                }
                 return propertyValue.ToString();
             }
 
